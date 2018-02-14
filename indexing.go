@@ -120,8 +120,6 @@ func BulkIndex(docs []string, options Options) error {
 			continue
 		}
 
-		header := fmt.Sprintf(`{"index": {"_index": "%s", "_type": "%s"}}`, options.Index, options.DocType)
-
 		// If an "-id" is given, peek into the document to extract the ID and
 		// use it in the header.
 		if options.IDField != "" {
@@ -187,7 +185,10 @@ func BulkIndex(docs []string, options Options) error {
 				}
 				doc = string(b)
 			}
+		} else {
+			header := fmt.Sprintf(`{"index": {"_index": "%s", "_type": "%s"}}`, options.Index, options.DocType)
 		}
+
 		lines = append(lines, header)
 		lines = append(lines, doc)
 	}
